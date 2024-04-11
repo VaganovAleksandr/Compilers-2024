@@ -1,9 +1,9 @@
 grammar Grammar;
 
-NEWLINE: [\r\n] -> skip;
+NEWLINE: [\r\n]+;
 SPACE: [ \t] -> skip;
 
-prog: 'int main()' '{' statement* '}';
+prog: 'int main()' '{' NEWLINE* (statement NEWLINE)* '}';
 
 VARIABLE_NAME: [a-zA-Z]+;
 
@@ -18,7 +18,7 @@ variable_definition: VARIABLE_NAME '=' expression';';
 variable_declaration_definition: base_type VARIABLE_NAME '=' expression';';
 
 statement: variable_declaration | variable_definition | variable_declaration_definition
-                                | 'if' '(' expression ')' '{' statement '}' ('else' '{' statement '}')?;
+                                | 'if' '(' expression ')' '{' NEWLINE* statement NEWLINE* '}' ('else' '{' NEWLINE* statement NEWLINE* '}')?;
 
 binary_operator: '+' | '-' | '*' | '/' | '==' | '&&' | '||' || '^';
 
