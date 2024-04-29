@@ -7,10 +7,28 @@ on:
     branches: [ "*" ]
 
 jobs:
-  Tests:
+  Build:
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare System
-        run: sudo apt-get install -y cmake libgtest-dev g++
-      - name: Run Tests
-        run: mkdir build && cd build && cmake ../ && make && ./Tests
+      - uses: actions/checkout@v3
+      - name: Preparing
+        run: sudo apt-get update && sudo apt-get install cmake libgtest-dev g++
+      - name: Build
+        run: mkdir build && cd build && cmake .. && make
+      - name: Uploading Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: build/Tests
+          retention-days: 1
+  Tests:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+      - shell: bash
+        run: |
+          cd /home/runner/work/Compilers-2024/Compilers-2024/artifact
+          chmod +x Tests
+          ./Tests
