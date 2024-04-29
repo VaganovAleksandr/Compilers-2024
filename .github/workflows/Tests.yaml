@@ -13,4 +13,4 @@ jobs:
       - name: Prepare System
         run: sudo apt-get install -y cmake libgtest-dev g++
       - name: Run Tests
-        run: mkdir build && cd build && cmake .. && make && ./Tests
+        run: mkdir build && cd build && cmake ../ && make && ./Tests
