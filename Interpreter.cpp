@@ -1,6 +1,6 @@
 #include "Interpreter.h"
 
-std::unique_ptr<Driver> driver;
+extern std::unique_ptr<Driver> driver;
 
 std::any Interpreter::visitProg(GrammarParser::ProgContext *ctx) {
   program = new Prog(ctx);
