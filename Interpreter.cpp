@@ -21,7 +21,7 @@ std::any Interpreter::visitBase_type(GrammarParser::Base_typeContext *ctx) {
 std::any Interpreter::visitVariable_declaration(GrammarParser::Variable_declarationContext *ctx) {
   if (!ctx) throw std::logic_error("ctx is nullptr in visitVariable_declaration");
   auto type = std::any_cast<std::string>(visit(ctx->base_type()));
-  auto name = std::any_cast<std::string>(visit(ctx->VARIABLE_NAME()));
+  auto name = ctx->VARIABLE_NAME()->toString();
   int value = 0;
   driver->AddVariable(type, name, value);
   return 0;

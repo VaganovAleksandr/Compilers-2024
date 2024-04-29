@@ -4,7 +4,7 @@
 #include "antlr4-runtime.h"
 
 int main() {
-  auto stream = antlr4::ANTLRInputStream("int main() { int x = -1; x = x + 1; if (x == 0) { x = 5; print(x); } else { x = 3; x = x + 7; print(x); } }");
+  auto stream = antlr4::ANTLRInputStream("int main() { int x; } }");
   GrammarLexer lexer(&stream);
   antlr4::CommonTokenStream tokens(&lexer);
 
@@ -20,4 +20,6 @@ int main() {
   Interpreter interpreter;
 
   Prog* prog = std::any_cast<Prog*>(interpreter.visit(tree));
+
+  return 0;
 }

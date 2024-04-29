@@ -35,3 +35,8 @@ int Driver::GetVariable(const std::string& name) const {
   return variables_int.contains(name) ? variables_int.at(name)
                                       : variables_bool.at(name);
 }
+
+void Driver::Clear() {
+  variables_int.clear();
+  variables_bool.clear();
+}

@@ -11,6 +11,7 @@ class Driver {
   void AddVariable(const std::string& type, const std::string& name, int value);
   void ChangeVariable(const std::string& name, int new_value);
   [[nodiscard]] int GetVariable(const std::string& name) const;
+  void Clear();
 };
 
 #endif
