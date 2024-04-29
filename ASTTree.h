@@ -2,84 +2,66 @@
 #define ASTTree_H
 
 #pragma once
-#include "Driver.h"
 #include "GrammarParser.h"
+#include "GrammarBaseVisitor.h"
 
-class VariableNameExpression : public GrammarParser::ExpressionContext {
- public:
-  std::string get_name();
-  int eval() override;
-};
+struct Instruction {
+  Instruction() : name(""), children({}) {}
+  Instruction(const std::string& name, const std::vector<Instruction*>& children)
+      : name(name), children(children) {}
+  ~Instruction() {
+    for (auto* instr : children) {
+      delete instr;
+    }
+  }
+  void AddChild(Instruction* child) { children.push_back(child); }
+  void Print(size_t number_of_tabs = 0) const noexcept;
+  void PrintToFile(std::ofstream& file,
+                   size_t number_of_tabs = 0) const noexcept;
 
-class IntegerExpression : public GrammarParser::ExpressionContext {
- public:
-  int eval() override;
-};
-
-class BinaryOperatorExpression : public GrammarParser::ExpressionContext {
- public:
-  int eval() override;
-};
-
-class VariableDeclaration : public GrammarParser::Variable_declarationContext {
- public:
-  void declare();
-};
-
-class VariableDefinition : public GrammarParser::Variable_definitionContext {
- public:
-  void define();
-};
-
-class VariableDeclarationDefinition
-    : public GrammarParser::Variable_declaration_definitionContext {
- public:
-  void declare_define();
-};
-
-class Print : public GrammarParser::PrintContext {
- public:
-  void execute() override;
-};
-
-class Function : public GrammarParser::FunctionContext {
- public:
-  std::any execute() override;
-};
-
-class FunctionStatement : public GrammarParser::StatementContext {
- public:
-  std::any execute() override;
-};
-
-class VariableDeclarationStatement : public GrammarParser::StatementContext {
- public:
-  std::any execute() override;
-};
-
-class VariableDefinitionStatement : public GrammarParser::StatementContext {
- public:
-  std::any execute() override;
-};
-
-class VariableDeclarationDefinitionStatement
-    : public GrammarParser::StatementContext {
- public:
-  std::any execute() override;
-};
-
-class IfElseStatement : public GrammarParser::StatementContext {
- public:
-  std::any execute() override;
+  std::string name;
+  std::vector<Instruction*> children;
 };
 
 class Prog : public GrammarParser::ProgContext {
  public:
-  explicit Prog(GrammarParser::ProgContext* prog)
-      : prog(prog) {};
-  int execute();
+  explicit Prog(GrammarParser::ProgContext* prog) : prog(prog){};
+  explicit operator Instruction();
 
   GrammarParser::ProgContext* prog;
+};
+
+class ASTGenerator : public GrammarBaseVisitor {
+ public:
+  std::any visitProg(GrammarParser::ProgContext *ctx) override;
+  std::any visitBase_type(GrammarParser::Base_typeContext *ctx) override;
+  std::any visitVariable_declaration(
+      GrammarParser::Variable_declarationContext *ctx) override;
+  std::any visitVariable_definition(
+      GrammarParser::Variable_definitionContext *ctx) override;
+  std::any visitVariable_declaration_definition(
+      GrammarParser::Variable_declaration_definitionContext *ctx) override;
+  std::any visitPrint(GrammarParser::PrintContext *ctx) override;
+  std::any visitFunction(GrammarParser::FunctionContext *ctx) override;
+  std::any visitStatement(GrammarParser::StatementContext *ctx) override;
+  std::any visitIf_statement(GrammarParser::If_statementContext *ctx) override;
+  std::any visitElse_statement(
+      GrammarParser::Else_statementContext *ctx) override;
+  std::any visitExpression(GrammarParser::ExpressionContext *ctx) override;
+
+  virtual ~ASTGenerator() override = default;
+};
+
+class ASTTree {
+ public:
+  ASTTree() = default;
+  ~ASTTree();
+  void Build(GrammarParser::ProgContext* prog);
+  void Print();
+  void PrintToFile(const std::string& path_to_file);
+
+ private:
+  Instruction* prog_root_instr = nullptr;
 };
 
 #endif

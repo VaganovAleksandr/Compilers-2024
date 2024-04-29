@@ -1,6 +1,6 @@
 #include "Interpreter.h"
 
-extern std::unique_ptr<Driver> driver;
+std::unique_ptr<Driver> driver;
 
 std::any Interpreter::visitProg(GrammarParser::ProgContext *ctx) {
   program = new Prog(ctx);
@@ -57,17 +57,29 @@ std::any Interpreter::visitFunction(GrammarParser::FunctionContext *ctx) {
   return 0;
 }
 
+std::any Interpreter::visitIf_statement(GrammarParser::If_statementContext *ctx) {
+  visit(ctx->statement());
+  return 0;
+}
+
+std::any Interpreter::visitElse_statement(GrammarParser::Else_statementContext *ctx) {
+  visit(ctx->statement());
+  return 0;
+}
+
 std::any Interpreter::visitStatement(GrammarParser::StatementContext *ctx) {
   if (!ctx) throw std::logic_error("ctx is nullptr in visitStatement");
   if (ctx->variable_declaration()) { visit(ctx->variable_declaration()); return 0; }
   if (ctx->variable_definition()) { visit(ctx->variable_definition()); return 0; }
   if (ctx->variable_declaration_definition()) { visit(ctx->variable_declaration_definition()); return 0; }
-  if (ctx->if_) {
+  if (ctx->expr) { // If Else Statement
     if (std::any_cast<bool>(visit(ctx->expr))) {
-      visit(ctx->if_);
-    } else {
-      if (ctx->else_) {
-        visit(ctx->else_);
+      for (auto* if_stat : ctx->if_statement()) {
+        visit(if_stat);
+      }
+    } else if (!ctx->else_statement().empty()) {
+      for (auto* else_stat : ctx->else_statement()) {
+        visit(else_stat);
       }
     }
     return 0;

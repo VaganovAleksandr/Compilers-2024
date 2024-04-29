@@ -35,6 +35,12 @@ public:
   virtual void enterFunction(GrammarParser::FunctionContext *ctx) = 0;
   virtual void exitFunction(GrammarParser::FunctionContext *ctx) = 0;
 
+  virtual void enterIf_statement(GrammarParser::If_statementContext *ctx) = 0;
+  virtual void exitIf_statement(GrammarParser::If_statementContext *ctx) = 0;
+
+  virtual void enterElse_statement(GrammarParser::Else_statementContext *ctx) = 0;
+  virtual void exitElse_statement(GrammarParser::Else_statementContext *ctx) = 0;
+
   virtual void enterStatement(GrammarParser::StatementContext *ctx) = 0;
   virtual void exitStatement(GrammarParser::StatementContext *ctx) = 0;
 

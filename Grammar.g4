@@ -24,10 +24,14 @@ print: 'print' '(' expression ')';
 
 function: print;
 
+if_statement: NEWLINE* statement NEWLINE*;
+
+else_statement: NEWLINE* statement NEWLINE*;
+
 statement: variable_declaration
          | variable_definition
          | variable_declaration_definition
-         | 'if' '(' expr=expression ')' '{' NEWLINE* (if=statement NEWLINE*)* '}' ('else' '{' NEWLINE* (else=statement NEWLINE*)* '}')?
+         | 'if' '(' expr=expression ')' '{' if_statement* '}' ('else' '{' else_statement* '}')?
          | function ';'
          ;
 

@@ -43,6 +43,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitIf_statement(GrammarParser::If_statementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitElse_statement(GrammarParser::Else_statementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitStatement(GrammarParser::StatementContext *ctx) override {
     return visitChildren(ctx);
   }

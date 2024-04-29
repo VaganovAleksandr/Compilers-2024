@@ -1,8 +1,9 @@
 #ifndef ASTGenerator_H
 #define ASTGenerator_H
 
-#include "GrammarBaseVisitor.h"
 #include "ASTTree.h"
+#include "Driver.h"
+#include "GrammarBaseVisitor.h"
 
 class Interpreter : public GrammarBaseVisitor {
  public:
@@ -17,17 +18,16 @@ class Interpreter : public GrammarBaseVisitor {
   std::any visitPrint(GrammarParser::PrintContext *ctx) override;
   std::any visitFunction(GrammarParser::FunctionContext *ctx) override;
   std::any visitStatement(GrammarParser::StatementContext *ctx) override;
+  std::any visitIf_statement(GrammarParser::If_statementContext *ctx) override;
+  std::any visitElse_statement(
+      GrammarParser::Else_statementContext *ctx) override;
   std::any visitExpression(GrammarParser::ExpressionContext *ctx) override;
-  Interpreter(): program(nullptr) {};
+  Interpreter() : program(nullptr){};
 
   virtual ~Interpreter() override;
 
- protected:
-  bool CheckExpression(GrammarParser::ExpressionContext* expression);
-
-
  private:
-  Prog* program;
+  Prog *program;
 };
 
 #endif

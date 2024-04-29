@@ -37,6 +37,12 @@ public:
   virtual void enterFunction(GrammarParser::FunctionContext * /*ctx*/) override { }
   virtual void exitFunction(GrammarParser::FunctionContext * /*ctx*/) override { }
 
+  virtual void enterIf_statement(GrammarParser::If_statementContext * /*ctx*/) override { }
+  virtual void exitIf_statement(GrammarParser::If_statementContext * /*ctx*/) override { }
+
+  virtual void enterElse_statement(GrammarParser::Else_statementContext * /*ctx*/) override { }
+  virtual void exitElse_statement(GrammarParser::Else_statementContext * /*ctx*/) override { }
+
   virtual void enterStatement(GrammarParser::StatementContext * /*ctx*/) override { }
   virtual void exitStatement(GrammarParser::StatementContext * /*ctx*/) override { }
 

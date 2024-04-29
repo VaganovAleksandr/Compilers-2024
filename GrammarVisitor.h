@@ -33,6 +33,10 @@ public:
 
     virtual std::any visitFunction(GrammarParser::FunctionContext *context) = 0;
 
+    virtual std::any visitIf_statement(GrammarParser::If_statementContext *context) = 0;
+
+    virtual std::any visitElse_statement(GrammarParser::Else_statementContext *context) = 0;
+
     virtual std::any visitStatement(GrammarParser::StatementContext *context) = 0;
 
     virtual std::any visitExpression(GrammarParser::ExpressionContext *context) = 0;
