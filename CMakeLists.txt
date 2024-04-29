@@ -48,6 +48,8 @@ add_executable(
 
 enable_testing()
 
+gtest_discover_tests(Tests)
+
 find_package(Threads REQUIRED)
 
 target_link_directories(Program PRIVATE dist)
