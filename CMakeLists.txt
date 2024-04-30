@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 project(grammar)
 SET(THREADS_PREFER_PTHREAD_FLAG ON)
 SET(CMAKE_CXX_STANDARD 20)
-SET(CMAKE_CXX_FLAGS -stdlib=libc++)
+SET(CMAKE_CXX_FLAGS "-stdlib=libc++")
 
 add_subdirectory(runtime)
 include_directories(runtime/src)
