@@ -80,8 +80,6 @@ TEST(InterpreterTests, CheckAnswerIfElse) {
   ASSERT_EQ(BaseChecker("int main() { int x = 5; if (x == 3) { print(x); } else { x = 7; print(x); } }"), 7);
 }
 
-
-
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
