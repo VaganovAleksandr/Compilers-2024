@@ -16,9 +16,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Preparing
         run: |
-          sudo apt-get update && sudo apt-get install cmake g++-14 libgtest-dev
+          sudo apt-get update && sudo apt-get install cmake clang++ libgtest-dev
       - name: Build
-        run: mkdir build && cd build && cmake .. && make
+        run: export CXXFLAGS="-std=c++20" && mkdir build && cd build && cmake .. && make
       - name: Uploading Artifact
         uses: actions/upload-artifact@v3
         with:
