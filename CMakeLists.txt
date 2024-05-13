@@ -3,10 +3,11 @@ cmake_minimum_required(VERSION 3.20)
 project(grammar)
 SET(THREADS_PREFER_PTHREAD_FLAG ON)
 SET(CMAKE_CXX_STANDARD 20)
-SET(CMAKE_CXX_FLAGS "-L ../runtime -L ../dist -l antlr4-runtime")
 
 add_subdirectory(runtime)
 include_directories(runtime/src)
+
+link_directories(dist)
 
 include(FetchContent)
 FetchContent_Declare(
