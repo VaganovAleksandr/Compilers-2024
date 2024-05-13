@@ -17,7 +17,7 @@ jobs:
       - name: Preparing
         run: |
           sudo apt-get update -y && sudo apt-get install -y cmake g++-14 libgtest-dev python3 python3-pip
-          pip3 install pip install antlr4-tools
+          pip3 install antlr4-tools
       - name: Build
         run: export CXXFLAGS="-std=c++20" && mkdir build && cd build && cmake .. && make
       - name: Uploading Artifact
