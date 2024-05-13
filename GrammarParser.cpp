@@ -58,60 +58,64 @@ void grammarParserInitialize() {
       "else_statement", "statement", "expression"
     },
     std::vector<std::string>{
-      "", "'int'", "'main'", "'()'", "'{'", "'}'", "'bool'", "'void'", "';'", 
-      "'='", "'print'", "'('", "')'", "'if'", "'else'"
+      "", "'int'", "'main'", "'()'", "'{'", "'}'", "'bool'", "'void'", "'string'", 
+      "';'", "'='", "'print'", "'('", "')'", "'if'", "'else'"
     },
     std::vector<std::string>{
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "NEWLINE", 
-      "SPACE", "VARIABLE_NAME", "INTEGER", "UNARY_OPERATOR", "BINARY_OPERATOR"
+      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "NEWLINE", 
+      "SPACE", "VARIABLE_NAME", "INTEGER", "SCHAR", "STRING", "UNARY_OPERATOR", 
+      "BINARY_OPERATOR"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,20,147,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,23,152,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,1,0,1,0,1,0,1,0,1,0,5,0,28,8,0,10,0,12,
   	0,31,9,0,1,0,1,0,5,0,35,8,0,10,0,12,0,38,9,0,5,0,40,8,0,10,0,12,0,43,
-  	9,0,1,0,1,0,1,1,1,1,1,1,3,1,50,8,1,1,2,1,2,1,2,1,2,1,3,1,3,1,3,1,3,1,
-  	3,1,4,1,4,1,4,1,4,1,4,1,4,1,5,1,5,1,5,1,5,1,5,1,6,1,6,1,7,5,7,75,8,7,
-  	10,7,12,7,78,9,7,1,7,1,7,5,7,82,8,7,10,7,12,7,85,9,7,1,8,5,8,88,8,8,10,
-  	8,12,8,91,9,8,1,8,1,8,5,8,95,8,8,10,8,12,8,98,9,8,1,9,1,9,1,9,1,9,1,9,
-  	1,9,1,9,1,9,1,9,5,9,109,8,9,10,9,12,9,112,9,9,1,9,1,9,1,9,1,9,5,9,118,
-  	8,9,10,9,12,9,121,9,9,1,9,3,9,124,8,9,1,9,1,9,1,9,3,9,129,8,9,1,10,1,
-  	10,3,10,133,8,10,1,10,1,10,3,10,137,8,10,1,10,1,10,1,10,5,10,142,8,10,
-  	10,10,12,10,145,9,10,1,10,0,1,20,11,0,2,4,6,8,10,12,14,16,18,20,0,0,154,
-  	0,22,1,0,0,0,2,49,1,0,0,0,4,51,1,0,0,0,6,55,1,0,0,0,8,60,1,0,0,0,10,66,
-  	1,0,0,0,12,71,1,0,0,0,14,76,1,0,0,0,16,89,1,0,0,0,18,128,1,0,0,0,20,136,
-  	1,0,0,0,22,23,5,1,0,0,23,24,5,2,0,0,24,25,5,3,0,0,25,29,5,4,0,0,26,28,
-  	5,15,0,0,27,26,1,0,0,0,28,31,1,0,0,0,29,27,1,0,0,0,29,30,1,0,0,0,30,41,
-  	1,0,0,0,31,29,1,0,0,0,32,36,3,18,9,0,33,35,5,15,0,0,34,33,1,0,0,0,35,
-  	38,1,0,0,0,36,34,1,0,0,0,36,37,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,39,
-  	32,1,0,0,0,40,43,1,0,0,0,41,39,1,0,0,0,41,42,1,0,0,0,42,44,1,0,0,0,43,
-  	41,1,0,0,0,44,45,5,5,0,0,45,1,1,0,0,0,46,50,5,1,0,0,47,50,5,6,0,0,48,
-  	50,5,7,0,0,49,46,1,0,0,0,49,47,1,0,0,0,49,48,1,0,0,0,50,3,1,0,0,0,51,
-  	52,3,2,1,0,52,53,5,17,0,0,53,54,5,8,0,0,54,5,1,0,0,0,55,56,5,17,0,0,56,
-  	57,5,9,0,0,57,58,3,20,10,0,58,59,5,8,0,0,59,7,1,0,0,0,60,61,3,2,1,0,61,
-  	62,5,17,0,0,62,63,5,9,0,0,63,64,3,20,10,0,64,65,5,8,0,0,65,9,1,0,0,0,
-  	66,67,5,10,0,0,67,68,5,11,0,0,68,69,3,20,10,0,69,70,5,12,0,0,70,11,1,
-  	0,0,0,71,72,3,10,5,0,72,13,1,0,0,0,73,75,5,15,0,0,74,73,1,0,0,0,75,78,
-  	1,0,0,0,76,74,1,0,0,0,76,77,1,0,0,0,77,79,1,0,0,0,78,76,1,0,0,0,79,83,
-  	3,18,9,0,80,82,5,15,0,0,81,80,1,0,0,0,82,85,1,0,0,0,83,81,1,0,0,0,83,
-  	84,1,0,0,0,84,15,1,0,0,0,85,83,1,0,0,0,86,88,5,15,0,0,87,86,1,0,0,0,88,
-  	91,1,0,0,0,89,87,1,0,0,0,89,90,1,0,0,0,90,92,1,0,0,0,91,89,1,0,0,0,92,
-  	96,3,18,9,0,93,95,5,15,0,0,94,93,1,0,0,0,95,98,1,0,0,0,96,94,1,0,0,0,
-  	96,97,1,0,0,0,97,17,1,0,0,0,98,96,1,0,0,0,99,129,3,4,2,0,100,129,3,6,
-  	3,0,101,129,3,8,4,0,102,103,5,13,0,0,103,104,5,11,0,0,104,105,3,20,10,
-  	0,105,106,5,12,0,0,106,110,5,4,0,0,107,109,3,14,7,0,108,107,1,0,0,0,109,
-  	112,1,0,0,0,110,108,1,0,0,0,110,111,1,0,0,0,111,113,1,0,0,0,112,110,1,
-  	0,0,0,113,123,5,5,0,0,114,115,5,14,0,0,115,119,5,4,0,0,116,118,3,16,8,
-  	0,117,116,1,0,0,0,118,121,1,0,0,0,119,117,1,0,0,0,119,120,1,0,0,0,120,
-  	122,1,0,0,0,121,119,1,0,0,0,122,124,5,5,0,0,123,114,1,0,0,0,123,124,1,
-  	0,0,0,124,129,1,0,0,0,125,126,3,12,6,0,126,127,5,8,0,0,127,129,1,0,0,
-  	0,128,99,1,0,0,0,128,100,1,0,0,0,128,101,1,0,0,0,128,102,1,0,0,0,128,
-  	125,1,0,0,0,129,19,1,0,0,0,130,132,6,10,-1,0,131,133,5,19,0,0,132,131,
-  	1,0,0,0,132,133,1,0,0,0,133,134,1,0,0,0,134,137,5,18,0,0,135,137,5,17,
-  	0,0,136,130,1,0,0,0,136,135,1,0,0,0,137,143,1,0,0,0,138,139,10,3,0,0,
-  	139,140,5,20,0,0,140,142,3,20,10,4,141,138,1,0,0,0,142,145,1,0,0,0,143,
-  	141,1,0,0,0,143,144,1,0,0,0,144,21,1,0,0,0,145,143,1,0,0,0,15,29,36,41,
-  	49,76,83,89,96,110,119,123,128,132,136,143
+  	9,0,1,0,1,0,1,1,1,1,1,1,1,1,3,1,51,8,1,1,2,1,2,1,2,1,2,1,3,1,3,1,3,1,
+  	3,1,3,1,4,1,4,1,4,1,4,1,4,1,4,1,5,1,5,1,5,1,5,1,5,1,6,1,6,1,7,5,7,76,
+  	8,7,10,7,12,7,79,9,7,1,7,1,7,5,7,83,8,7,10,7,12,7,86,9,7,1,8,5,8,89,8,
+  	8,10,8,12,8,92,9,8,1,8,1,8,5,8,96,8,8,10,8,12,8,99,9,8,1,9,1,9,1,9,1,
+  	9,1,9,1,9,1,9,1,9,1,9,5,9,110,8,9,10,9,12,9,113,9,9,1,9,1,9,1,9,1,9,5,
+  	9,119,8,9,10,9,12,9,122,9,9,1,9,3,9,125,8,9,1,9,1,9,1,9,3,9,130,8,9,1,
+  	10,1,10,1,10,3,10,135,8,10,1,10,1,10,3,10,139,8,10,1,10,3,10,142,8,10,
+  	1,10,1,10,1,10,5,10,147,8,10,10,10,12,10,150,9,10,1,10,0,1,20,11,0,2,
+  	4,6,8,10,12,14,16,18,20,0,0,162,0,22,1,0,0,0,2,50,1,0,0,0,4,52,1,0,0,
+  	0,6,56,1,0,0,0,8,61,1,0,0,0,10,67,1,0,0,0,12,72,1,0,0,0,14,77,1,0,0,0,
+  	16,90,1,0,0,0,18,129,1,0,0,0,20,141,1,0,0,0,22,23,5,1,0,0,23,24,5,2,0,
+  	0,24,25,5,3,0,0,25,29,5,4,0,0,26,28,5,16,0,0,27,26,1,0,0,0,28,31,1,0,
+  	0,0,29,27,1,0,0,0,29,30,1,0,0,0,30,41,1,0,0,0,31,29,1,0,0,0,32,36,3,18,
+  	9,0,33,35,5,16,0,0,34,33,1,0,0,0,35,38,1,0,0,0,36,34,1,0,0,0,36,37,1,
+  	0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,39,32,1,0,0,0,40,43,1,0,0,0,41,39,1,
+  	0,0,0,41,42,1,0,0,0,42,44,1,0,0,0,43,41,1,0,0,0,44,45,5,5,0,0,45,1,1,
+  	0,0,0,46,51,5,1,0,0,47,51,5,6,0,0,48,51,5,7,0,0,49,51,5,8,0,0,50,46,1,
+  	0,0,0,50,47,1,0,0,0,50,48,1,0,0,0,50,49,1,0,0,0,51,3,1,0,0,0,52,53,3,
+  	2,1,0,53,54,5,18,0,0,54,55,5,9,0,0,55,5,1,0,0,0,56,57,5,18,0,0,57,58,
+  	5,10,0,0,58,59,3,20,10,0,59,60,5,9,0,0,60,7,1,0,0,0,61,62,3,2,1,0,62,
+  	63,5,18,0,0,63,64,5,10,0,0,64,65,3,20,10,0,65,66,5,9,0,0,66,9,1,0,0,0,
+  	67,68,5,11,0,0,68,69,5,12,0,0,69,70,3,20,10,0,70,71,5,13,0,0,71,11,1,
+  	0,0,0,72,73,3,10,5,0,73,13,1,0,0,0,74,76,5,16,0,0,75,74,1,0,0,0,76,79,
+  	1,0,0,0,77,75,1,0,0,0,77,78,1,0,0,0,78,80,1,0,0,0,79,77,1,0,0,0,80,84,
+  	3,18,9,0,81,83,5,16,0,0,82,81,1,0,0,0,83,86,1,0,0,0,84,82,1,0,0,0,84,
+  	85,1,0,0,0,85,15,1,0,0,0,86,84,1,0,0,0,87,89,5,16,0,0,88,87,1,0,0,0,89,
+  	92,1,0,0,0,90,88,1,0,0,0,90,91,1,0,0,0,91,93,1,0,0,0,92,90,1,0,0,0,93,
+  	97,3,18,9,0,94,96,5,16,0,0,95,94,1,0,0,0,96,99,1,0,0,0,97,95,1,0,0,0,
+  	97,98,1,0,0,0,98,17,1,0,0,0,99,97,1,0,0,0,100,130,3,4,2,0,101,130,3,6,
+  	3,0,102,130,3,8,4,0,103,104,5,14,0,0,104,105,5,12,0,0,105,106,3,20,10,
+  	0,106,107,5,13,0,0,107,111,5,4,0,0,108,110,3,14,7,0,109,108,1,0,0,0,110,
+  	113,1,0,0,0,111,109,1,0,0,0,111,112,1,0,0,0,112,114,1,0,0,0,113,111,1,
+  	0,0,0,114,124,5,5,0,0,115,116,5,15,0,0,116,120,5,4,0,0,117,119,3,16,8,
+  	0,118,117,1,0,0,0,119,122,1,0,0,0,120,118,1,0,0,0,120,121,1,0,0,0,121,
+  	123,1,0,0,0,122,120,1,0,0,0,123,125,5,5,0,0,124,115,1,0,0,0,124,125,1,
+  	0,0,0,125,130,1,0,0,0,126,127,3,12,6,0,127,128,5,9,0,0,128,130,1,0,0,
+  	0,129,100,1,0,0,0,129,101,1,0,0,0,129,102,1,0,0,0,129,103,1,0,0,0,129,
+  	126,1,0,0,0,130,19,1,0,0,0,131,132,6,10,-1,0,132,142,5,21,0,0,133,135,
+  	5,22,0,0,134,133,1,0,0,0,134,135,1,0,0,0,135,136,1,0,0,0,136,142,5,19,
+  	0,0,137,139,5,22,0,0,138,137,1,0,0,0,138,139,1,0,0,0,139,140,1,0,0,0,
+  	140,142,5,18,0,0,141,131,1,0,0,0,141,134,1,0,0,0,141,138,1,0,0,0,142,
+  	148,1,0,0,0,143,144,10,4,0,0,144,145,5,23,0,0,145,147,3,20,10,5,146,143,
+  	1,0,0,0,147,150,1,0,0,0,148,146,1,0,0,0,148,149,1,0,0,0,149,21,1,0,0,
+  	0,150,148,1,0,0,0,16,29,36,41,50,77,84,90,97,111,120,124,129,134,138,
+  	141,148
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -243,7 +247,7 @@ GrammarParser::ProgContext* GrammarParser::prog() {
     _errHandler->sync(this);
     _la = _input->LA(1);
     while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 140482) != 0)) {
+      ((1ULL << _la) & 281026) != 0)) {
       setState(32);
       statement();
       setState(36);
@@ -316,7 +320,7 @@ GrammarParser::Base_typeContext* GrammarParser::base_type() {
     exitRule();
   });
   try {
-    setState(49);
+    setState(50);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case GrammarParser::T__0: {
@@ -337,6 +341,13 @@ GrammarParser::Base_typeContext* GrammarParser::base_type() {
         enterOuterAlt(_localctx, 3);
         setState(48);
         antlrcpp::downCast<Base_typeContext *>(_localctx)->void_ = match(GrammarParser::T__6);
+        break;
+      }
+
+      case GrammarParser::T__7: {
+        enterOuterAlt(_localctx, 4);
+        setState(49);
+        antlrcpp::downCast<Base_typeContext *>(_localctx)->str = match(GrammarParser::T__7);
         break;
       }
 
@@ -406,12 +417,12 @@ GrammarParser::Variable_declarationContext* GrammarParser::variable_declaration(
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(51);
-    base_type();
     setState(52);
-    antlrcpp::downCast<Variable_declarationContext *>(_localctx)->var_name = match(GrammarParser::VARIABLE_NAME);
+    base_type();
     setState(53);
-    match(GrammarParser::T__7);
+    antlrcpp::downCast<Variable_declarationContext *>(_localctx)->var_name = match(GrammarParser::VARIABLE_NAME);
+    setState(54);
+    match(GrammarParser::T__8);
    
   }
   catch (RecognitionException &e) {
@@ -475,14 +486,14 @@ GrammarParser::Variable_definitionContext* GrammarParser::variable_definition() 
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(55);
-    match(GrammarParser::VARIABLE_NAME);
     setState(56);
-    match(GrammarParser::T__8);
+    match(GrammarParser::VARIABLE_NAME);
     setState(57);
-    expression(0);
+    match(GrammarParser::T__9);
     setState(58);
-    match(GrammarParser::T__7);
+    expression(0);
+    setState(59);
+    match(GrammarParser::T__8);
    
   }
   catch (RecognitionException &e) {
@@ -550,16 +561,16 @@ GrammarParser::Variable_declaration_definitionContext* GrammarParser::variable_d
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(60);
-    base_type();
     setState(61);
-    match(GrammarParser::VARIABLE_NAME);
+    base_type();
     setState(62);
-    match(GrammarParser::T__8);
+    match(GrammarParser::VARIABLE_NAME);
     setState(63);
-    expression(0);
+    match(GrammarParser::T__9);
     setState(64);
-    match(GrammarParser::T__7);
+    expression(0);
+    setState(65);
+    match(GrammarParser::T__8);
    
   }
   catch (RecognitionException &e) {
@@ -619,14 +630,14 @@ GrammarParser::PrintContext* GrammarParser::print() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(66);
-    match(GrammarParser::T__9);
     setState(67);
     match(GrammarParser::T__10);
     setState(68);
-    expression(0);
-    setState(69);
     match(GrammarParser::T__11);
+    setState(69);
+    expression(0);
+    setState(70);
+    match(GrammarParser::T__12);
    
   }
   catch (RecognitionException &e) {
@@ -686,7 +697,7 @@ GrammarParser::FunctionContext* GrammarParser::function() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(71);
+    setState(72);
     print();
    
   }
@@ -757,27 +768,27 @@ GrammarParser::If_statementContext* GrammarParser::if_statement() {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(76);
+    setState(77);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == GrammarParser::NEWLINE) {
-      setState(73);
+      setState(74);
       match(GrammarParser::NEWLINE);
-      setState(78);
+      setState(79);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(79);
+    setState(80);
     statement();
-    setState(83);
+    setState(84);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
-        setState(80);
+        setState(81);
         match(GrammarParser::NEWLINE); 
       }
-      setState(85);
+      setState(86);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx);
     }
@@ -850,27 +861,27 @@ GrammarParser::Else_statementContext* GrammarParser::else_statement() {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(89);
+    setState(90);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == GrammarParser::NEWLINE) {
-      setState(86);
+      setState(87);
       match(GrammarParser::NEWLINE);
-      setState(91);
+      setState(92);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(92);
+    setState(93);
     statement();
-    setState(96);
+    setState(97);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
-        setState(93);
+        setState(94);
         match(GrammarParser::NEWLINE); 
       }
-      setState(98);
+      setState(99);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
     }
@@ -965,76 +976,76 @@ GrammarParser::StatementContext* GrammarParser::statement() {
     exitRule();
   });
   try {
-    setState(128);
+    setState(129);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(99);
+      setState(100);
       variable_declaration();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(100);
+      setState(101);
       variable_definition();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(101);
+      setState(102);
       variable_declaration_definition();
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(102);
-      match(GrammarParser::T__12);
       setState(103);
-      match(GrammarParser::T__10);
+      match(GrammarParser::T__13);
       setState(104);
-      antlrcpp::downCast<StatementContext *>(_localctx)->expr = expression(0);
-      setState(105);
       match(GrammarParser::T__11);
+      setState(105);
+      antlrcpp::downCast<StatementContext *>(_localctx)->expr = expression(0);
       setState(106);
+      match(GrammarParser::T__12);
+      setState(107);
       match(GrammarParser::T__3);
-      setState(110);
+      setState(111);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while ((((_la & ~ 0x3fULL) == 0) &&
-        ((1ULL << _la) & 173250) != 0)) {
-        setState(107);
+        ((1ULL << _la) & 346562) != 0)) {
+        setState(108);
         if_statement();
-        setState(112);
+        setState(113);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(113);
+      setState(114);
       match(GrammarParser::T__4);
-      setState(123);
+      setState(124);
       _errHandler->sync(this);
 
       _la = _input->LA(1);
-      if (_la == GrammarParser::T__13) {
-        setState(114);
-        match(GrammarParser::T__13);
+      if (_la == GrammarParser::T__14) {
         setState(115);
+        match(GrammarParser::T__14);
+        setState(116);
         match(GrammarParser::T__3);
-        setState(119);
+        setState(120);
         _errHandler->sync(this);
         _la = _input->LA(1);
         while ((((_la & ~ 0x3fULL) == 0) &&
-          ((1ULL << _la) & 173250) != 0)) {
-          setState(116);
+          ((1ULL << _la) & 346562) != 0)) {
+          setState(117);
           else_statement();
-          setState(121);
+          setState(122);
           _errHandler->sync(this);
           _la = _input->LA(1);
         }
-        setState(122);
+        setState(123);
         match(GrammarParser::T__4);
       }
       break;
@@ -1042,10 +1053,10 @@ GrammarParser::StatementContext* GrammarParser::statement() {
 
     case 5: {
       enterOuterAlt(_localctx, 5);
-      setState(125);
-      function();
       setState(126);
-      match(GrammarParser::T__7);
+      function();
+      setState(127);
+      match(GrammarParser::T__8);
       break;
     }
 
@@ -1067,6 +1078,10 @@ GrammarParser::StatementContext* GrammarParser::statement() {
 
 GrammarParser::ExpressionContext::ExpressionContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* GrammarParser::ExpressionContext::STRING() {
+  return getToken(GrammarParser::STRING, 0);
 }
 
 tree::TerminalNode* GrammarParser::ExpressionContext::INTEGER() {
@@ -1144,37 +1159,50 @@ GrammarParser::ExpressionContext* GrammarParser::expression(int precedence) {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(136);
+    setState(141);
     _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case GrammarParser::INTEGER:
-      case GrammarParser::UNARY_OPERATOR: {
-        setState(132);
-        _errHandler->sync(this);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx)) {
+    case 1: {
+      setState(132);
+      match(GrammarParser::STRING);
+      break;
+    }
 
-        _la = _input->LA(1);
-        if (_la == GrammarParser::UNARY_OPERATOR) {
-          setState(131);
-          match(GrammarParser::UNARY_OPERATOR);
-        }
-        setState(134);
-        match(GrammarParser::INTEGER);
-        break;
-      }
+    case 2: {
+      setState(134);
+      _errHandler->sync(this);
 
-      case GrammarParser::VARIABLE_NAME: {
-        setState(135);
-        match(GrammarParser::VARIABLE_NAME);
-        break;
+      _la = _input->LA(1);
+      if (_la == GrammarParser::UNARY_OPERATOR) {
+        setState(133);
+        match(GrammarParser::UNARY_OPERATOR);
       }
+      setState(136);
+      match(GrammarParser::INTEGER);
+      break;
+    }
+
+    case 3: {
+      setState(138);
+      _errHandler->sync(this);
+
+      _la = _input->LA(1);
+      if (_la == GrammarParser::UNARY_OPERATOR) {
+        setState(137);
+        match(GrammarParser::UNARY_OPERATOR);
+      }
+      setState(140);
+      match(GrammarParser::VARIABLE_NAME);
+      break;
+    }
 
     default:
-      throw NoViableAltException(this);
+      break;
     }
     _ctx->stop = _input->LT(-1);
-    setState(143);
+    setState(148);
     _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 15, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
         if (!_parseListeners.empty())
@@ -1183,17 +1211,17 @@ GrammarParser::ExpressionContext* GrammarParser::expression(int precedence) {
         _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
         _localctx->expr1 = previousContext;
         pushNewRecursionContext(_localctx, startState, RuleExpression);
-        setState(138);
+        setState(143);
 
-        if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
-        setState(139);
+        if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
+        setState(144);
         match(GrammarParser::BINARY_OPERATOR);
-        setState(140);
-        antlrcpp::downCast<ExpressionContext *>(_localctx)->expr2 = expression(4); 
+        setState(145);
+        antlrcpp::downCast<ExpressionContext *>(_localctx)->expr2 = expression(5); 
       }
-      setState(145);
+      setState(150);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 15, _ctx);
     }
   }
   catch (RecognitionException &e) {
@@ -1216,7 +1244,7 @@ bool GrammarParser::sempred(RuleContext *context, size_t ruleIndex, size_t predi
 
 bool GrammarParser::expressionSempred(ExpressionContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return precpred(_ctx, 3);
+    case 0: return precpred(_ctx, 4);
 
   default:
     break;

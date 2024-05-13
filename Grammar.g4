@@ -10,11 +10,16 @@ VARIABLE_NAME: [a-zA-Z]+;
 base_type: int='int'
          | bool='bool'
          | void='void'
+         | str='string'
          ;
 
 variable_declaration: base_type var_name=VARIABLE_NAME';';
 
 INTEGER: [1-9][0-9]+ | [0-9];
+
+SCHAR: ~[-+*&/^"\\\r\n];
+
+STRING: '"' SCHAR* '"';
 
 variable_definition: VARIABLE_NAME '=' expression';';
 
@@ -50,4 +55,4 @@ BINARY_OPERATOR: '+'
                | '^'
                ;
 
-expression: expr1=expression BINARY_OPERATOR expr2=expression | UNARY_OPERATOR? INTEGER | VARIABLE_NAME;
+expression: expr1=expression BINARY_OPERATOR expr2=expression | STRING | UNARY_OPERATOR? INTEGER | UNARY_OPERATOR? VARIABLE_NAME;

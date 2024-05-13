@@ -1,39 +1,58 @@
 #include "Driver.h"
 
-#include <format>
 #include <iostream>
 
 std::unique_ptr<Driver> driver = std::make_unique<Driver>();
 
 void Driver::AddVariable(const std::string& type, const std::string& name,
-                         int value) {
-  if (variables_int.contains(name) || variables_bool.contains(name)) {
-    throw std::logic_error(std::format("Variable {} already exists.", name));
+                         const std::any& value) {
+  if (variables_int.contains(name) || variables_bool.contains(name) ||
+      variables_string.contains(name)) {
+    std::cerr << "Variable " << name << " is already defined";
+    abort();
   }
   if (type == "int") {
-    variables_int.emplace(name, value);
+    variables_int.emplace(name, std::any_cast<int>(value));
     return;
   }
-  variables_bool.emplace(name, value);
+  if (type == "bool") {
+    variables_bool.emplace(name, std::any_cast<bool>(value));
+    return;
+  }
+  if (type == "string") {
+    variables_string.emplace(name, std::any_cast<std::string>(value));
+    return;
+  }
 }
 
-void Driver::ChangeVariable(const std::string& name, int new_value) {
-  if (!(variables_int.contains(name) || variables_bool.contains(name))) {
-    throw std::logic_error(std::format("Variable {} does not exist.", name));
-  }
+void Driver::ChangeVariable(const std::string& name, const std::any& new_value) {
   if (variables_int.contains(name)) {
-    variables_int[name] = new_value;
+    variables_int[name] = std::any_cast<int>(new_value);
     return;
   }
-  variables_bool[name] = new_value;
+  if (variables_bool.contains(name)) {
+    variables_bool[name] = std::any_cast<bool>(new_value);
+    return;
+  }
+  if (variables_string.contains(name)) {
+    variables_string[name] = std::any_cast<std::string>(new_value);
+  }
+  std::cerr << "Variable " << name << " does not exist!";
+  abort();
 }
 
-int Driver::GetVariable(const std::string& name) const {
-  if (!(variables_int.contains(name) || variables_bool.contains(name))) {
-    throw std::logic_error(std::format("Variable {} does not exist.", name));
+std::any Driver::GetVariable(const std::string& name) const {
+  if (variables_int.contains(name)) {
+    return driver->variables_int[name];
   }
-  return variables_int.contains(name) ? variables_int.at(name)
-                                      : variables_bool.at(name);
+  if (variables_bool.contains(name)) {
+    return driver->variables_bool[name];
+  }
+  if (variables_string.contains(name)) {
+    return driver->variables_string[name];
+  }
+  std::cerr << "Variable " << name << " does not exist!";
+  abort();
 }
 
 void Driver::Clear() {

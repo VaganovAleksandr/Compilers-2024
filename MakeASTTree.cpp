@@ -2,8 +2,11 @@
 #include "ASTTree.h"
 #include "antlr4-runtime.h"
 
-int main() {
-  auto stream = antlr4::ANTLRInputStream("int main() { int x = 5; x = x + 5; if (x == 10) { x = 3; print(x); } else { x = 7; print(x); } }");
+int main(int argc, char** argv) {
+  auto path = argv[1];
+  std::ifstream file(path);
+  std::string inputString((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+  auto stream = antlr4::ANTLRInputStream(inputString);
   GrammarLexer lexer(&stream);
   antlr4::CommonTokenStream tokens(&lexer);
 

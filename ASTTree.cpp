@@ -155,6 +155,10 @@ std::any ASTGenerator::visitExpression(GrammarParser::ExpressionContext* ctx) {
     }
     return new Instruction("IntegerExpression", {new Instruction(value, {})});
   }
+  if (ctx->STRING()) {
+    std::string value = ctx->STRING()->toString();
+    return new Instruction("StringExpression", {new Instruction(value, {})});
+  }
   exit(-1);
 }
 

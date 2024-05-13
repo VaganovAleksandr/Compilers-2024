@@ -18,7 +18,7 @@ void BasicTest(const std::string& program) {
 
 int BaseChecker(const std::string& program) {
   std::stringstream buffer;
-  std::streambuf* prevcoutbuf = std::cout.rdbuf(buffer.rdbuf());
+  std::streambuf* prev_cout_buf = std::cout.rdbuf(buffer.rdbuf());
   auto stream = antlr4::ANTLRInputStream(program);
   GrammarLexer lexer(&stream);
   antlr4::CommonTokenStream tokens(&lexer);
@@ -31,7 +31,7 @@ int BaseChecker(const std::string& program) {
   auto* prog = std::any_cast<Prog*>(interpreter.visit(tree));
   std::string text = buffer.str();
   int result = std::stoi(text);
-  std::cout.rdbuf(prevcoutbuf);
+  std::cout.rdbuf(prev_cout_buf);
   driver->Clear();
   return result;
 }

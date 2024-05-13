@@ -14,8 +14,8 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    NEWLINE = 15, SPACE = 16, VARIABLE_NAME = 17, INTEGER = 18, UNARY_OPERATOR = 19, 
-    BINARY_OPERATOR = 20
+    T__14 = 15, NEWLINE = 16, SPACE = 17, VARIABLE_NAME = 18, INTEGER = 19, 
+    SCHAR = 20, STRING = 21, UNARY_OPERATOR = 22, BINARY_OPERATOR = 23
   };
 
   enum {
@@ -77,6 +77,7 @@ public:
     antlr4::Token *int_ = nullptr;
     antlr4::Token *bool_ = nullptr;
     antlr4::Token *void_ = nullptr;
+    antlr4::Token *str = nullptr;
     Base_typeContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
 
@@ -233,6 +234,7 @@ public:
     GrammarParser::ExpressionContext *expr2 = nullptr;
     ExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *STRING();
     antlr4::tree::TerminalNode *INTEGER();
     antlr4::tree::TerminalNode *UNARY_OPERATOR();
     antlr4::tree::TerminalNode *VARIABLE_NAME();
