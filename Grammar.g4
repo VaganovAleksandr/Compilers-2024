@@ -3,7 +3,9 @@ grammar Grammar;
 NEWLINE: [\r\n]+;
 SPACE: [ \t] -> skip;
 
-prog: 'int' 'main' '()' '{' NEWLINE* (statement NEWLINE*)* '}';
+pre_main: function_declaration | class;
+
+prog: (pre_main NEWLINE*)* 'int' 'main' '()' '{' NEWLINE* (statement NEWLINE*)* '}';
 
 VARIABLE_NAME: [a-zA-Z]+;
 
@@ -13,7 +15,25 @@ base_type: int='int'
          | str='string'
          ;
 
-variable_declaration: base_type var_name=VARIABLE_NAME';';
+function_declaration: 'func' type VARIABLE_NAME '(' parameter_list? ')' '{' NEWLINE* (statement NEWLINE*)* '}' NEWLINE*;
+
+array_type: base_type '*';
+
+parameter: type VARIABLE_NAME;
+
+type: base_type | array_type;
+
+parameter_list : parameter(','parameter)* ;
+
+method: 'method' type VARIABLE_NAME '('parameter_list?')' '{' NEWLINE* (statement NEWLINE)* '}' NEWLINE*;
+
+class_field: type VARIABLE_NAME ';';
+
+class_statement: method | class_field;
+
+class: 'class' VARIABLE_NAME '{' NEWLINE* (class_statement NEWLINE)* '}' ';';
+
+variable_declaration: type var_name=VARIABLE_NAME';';
 
 INTEGER: [1-9][0-9]+ | [0-9];
 
@@ -23,7 +43,7 @@ STRING: '"' SCHAR* '"';
 
 variable_definition: VARIABLE_NAME '=' expression';';
 
-variable_declaration_definition: base_type VARIABLE_NAME '=' expression';';
+variable_declaration_definition: type VARIABLE_NAME '=' expression';';
 
 print: 'print' '(' expression ')';
 

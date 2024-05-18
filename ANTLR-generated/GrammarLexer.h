@@ -14,8 +14,9 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    T__14 = 15, NEWLINE = 16, SPACE = 17, VARIABLE_NAME = 18, INTEGER = 19, 
-    SCHAR = 20, STRING = 21, UNARY_OPERATOR = 22, BINARY_OPERATOR = 23
+    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
+    NEWLINE = 21, SPACE = 22, VARIABLE_NAME = 23, INTEGER = 24, SCHAR = 25, 
+    STRING = 26, UNARY_OPERATOR = 27, BINARY_OPERATOR = 28
   };
 
   explicit GrammarLexer(antlr4::CharStream *input);

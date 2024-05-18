@@ -14,11 +14,41 @@
 class  GrammarListener : public antlr4::tree::ParseTreeListener {
 public:
 
+  virtual void enterPre_main(GrammarParser::Pre_mainContext *ctx) = 0;
+  virtual void exitPre_main(GrammarParser::Pre_mainContext *ctx) = 0;
+
   virtual void enterProg(GrammarParser::ProgContext *ctx) = 0;
   virtual void exitProg(GrammarParser::ProgContext *ctx) = 0;
 
   virtual void enterBase_type(GrammarParser::Base_typeContext *ctx) = 0;
   virtual void exitBase_type(GrammarParser::Base_typeContext *ctx) = 0;
+
+  virtual void enterFunction_declaration(GrammarParser::Function_declarationContext *ctx) = 0;
+  virtual void exitFunction_declaration(GrammarParser::Function_declarationContext *ctx) = 0;
+
+  virtual void enterArray_type(GrammarParser::Array_typeContext *ctx) = 0;
+  virtual void exitArray_type(GrammarParser::Array_typeContext *ctx) = 0;
+
+  virtual void enterParameter(GrammarParser::ParameterContext *ctx) = 0;
+  virtual void exitParameter(GrammarParser::ParameterContext *ctx) = 0;
+
+  virtual void enterType(GrammarParser::TypeContext *ctx) = 0;
+  virtual void exitType(GrammarParser::TypeContext *ctx) = 0;
+
+  virtual void enterParameter_list(GrammarParser::Parameter_listContext *ctx) = 0;
+  virtual void exitParameter_list(GrammarParser::Parameter_listContext *ctx) = 0;
+
+  virtual void enterMethod(GrammarParser::MethodContext *ctx) = 0;
+  virtual void exitMethod(GrammarParser::MethodContext *ctx) = 0;
+
+  virtual void enterClass_field(GrammarParser::Class_fieldContext *ctx) = 0;
+  virtual void exitClass_field(GrammarParser::Class_fieldContext *ctx) = 0;
+
+  virtual void enterClass_statement(GrammarParser::Class_statementContext *ctx) = 0;
+  virtual void exitClass_statement(GrammarParser::Class_statementContext *ctx) = 0;
+
+  virtual void enterClass(GrammarParser::ClassContext *ctx) = 0;
+  virtual void exitClass(GrammarParser::ClassContext *ctx) = 0;
 
   virtual void enterVariable_declaration(GrammarParser::Variable_declarationContext *ctx) = 0;
   virtual void exitVariable_declaration(GrammarParser::Variable_declarationContext *ctx) = 0;

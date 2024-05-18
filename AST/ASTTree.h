@@ -34,7 +34,17 @@ class Prog : public GrammarParser::ProgContext {
 class ASTGenerator : public GrammarBaseVisitor {
  public:
   std::any visitProg(GrammarParser::ProgContext *ctx) override;
+  std::any visitPre_main(GrammarParser::Pre_mainContext *ctx) override;
   std::any visitBase_type(GrammarParser::Base_typeContext *ctx) override;
+  std::any visitFunction_declaration(GrammarParser::Function_declarationContext *ctx) override;
+  std::any visitArray_type(GrammarParser::Array_typeContext *ctx) override;
+  std::any visitParameter(GrammarParser::ParameterContext *ctx) override;
+  std::any visitType(GrammarParser::TypeContext *ctx) override;
+  std::any visitParameter_list(GrammarParser::Parameter_listContext *ctx) override;
+  std::any visitMethod(GrammarParser::MethodContext *ctx) override;
+  std::any visitClass_field(GrammarParser::Class_fieldContext *ctx) override;
+  std::any visitClass_statement(GrammarParser::Class_statementContext *ctx) override;
+  std::any visitClass(GrammarParser::ClassContext *ctx) override;
   std::any visitVariable_declaration(
       GrammarParser::Variable_declarationContext *ctx) override;
   std::any visitVariable_definition(

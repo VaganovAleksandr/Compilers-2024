@@ -19,9 +19,29 @@ public:
   /**
    * Visit parse trees produced by GrammarParser.
    */
+    virtual std::any visitPre_main(GrammarParser::Pre_mainContext *context) = 0;
+
     virtual std::any visitProg(GrammarParser::ProgContext *context) = 0;
 
     virtual std::any visitBase_type(GrammarParser::Base_typeContext *context) = 0;
+
+    virtual std::any visitFunction_declaration(GrammarParser::Function_declarationContext *context) = 0;
+
+    virtual std::any visitArray_type(GrammarParser::Array_typeContext *context) = 0;
+
+    virtual std::any visitParameter(GrammarParser::ParameterContext *context) = 0;
+
+    virtual std::any visitType(GrammarParser::TypeContext *context) = 0;
+
+    virtual std::any visitParameter_list(GrammarParser::Parameter_listContext *context) = 0;
+
+    virtual std::any visitMethod(GrammarParser::MethodContext *context) = 0;
+
+    virtual std::any visitClass_field(GrammarParser::Class_fieldContext *context) = 0;
+
+    virtual std::any visitClass_statement(GrammarParser::Class_statementContext *context) = 0;
+
+    virtual std::any visitClass(GrammarParser::ClassContext *context) = 0;
 
     virtual std::any visitVariable_declaration(GrammarParser::Variable_declarationContext *context) = 0;
 

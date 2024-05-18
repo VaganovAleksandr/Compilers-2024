@@ -16,11 +16,41 @@
 class  GrammarBaseListener : public GrammarListener {
 public:
 
+  virtual void enterPre_main(GrammarParser::Pre_mainContext * /*ctx*/) override { }
+  virtual void exitPre_main(GrammarParser::Pre_mainContext * /*ctx*/) override { }
+
   virtual void enterProg(GrammarParser::ProgContext * /*ctx*/) override { }
   virtual void exitProg(GrammarParser::ProgContext * /*ctx*/) override { }
 
   virtual void enterBase_type(GrammarParser::Base_typeContext * /*ctx*/) override { }
   virtual void exitBase_type(GrammarParser::Base_typeContext * /*ctx*/) override { }
+
+  virtual void enterFunction_declaration(GrammarParser::Function_declarationContext * /*ctx*/) override { }
+  virtual void exitFunction_declaration(GrammarParser::Function_declarationContext * /*ctx*/) override { }
+
+  virtual void enterArray_type(GrammarParser::Array_typeContext * /*ctx*/) override { }
+  virtual void exitArray_type(GrammarParser::Array_typeContext * /*ctx*/) override { }
+
+  virtual void enterParameter(GrammarParser::ParameterContext * /*ctx*/) override { }
+  virtual void exitParameter(GrammarParser::ParameterContext * /*ctx*/) override { }
+
+  virtual void enterType(GrammarParser::TypeContext * /*ctx*/) override { }
+  virtual void exitType(GrammarParser::TypeContext * /*ctx*/) override { }
+
+  virtual void enterParameter_list(GrammarParser::Parameter_listContext * /*ctx*/) override { }
+  virtual void exitParameter_list(GrammarParser::Parameter_listContext * /*ctx*/) override { }
+
+  virtual void enterMethod(GrammarParser::MethodContext * /*ctx*/) override { }
+  virtual void exitMethod(GrammarParser::MethodContext * /*ctx*/) override { }
+
+  virtual void enterClass_field(GrammarParser::Class_fieldContext * /*ctx*/) override { }
+  virtual void exitClass_field(GrammarParser::Class_fieldContext * /*ctx*/) override { }
+
+  virtual void enterClass_statement(GrammarParser::Class_statementContext * /*ctx*/) override { }
+  virtual void exitClass_statement(GrammarParser::Class_statementContext * /*ctx*/) override { }
+
+  virtual void enterClass(GrammarParser::ClassContext * /*ctx*/) override { }
+  virtual void exitClass(GrammarParser::ClassContext * /*ctx*/) override { }
 
   virtual void enterVariable_declaration(GrammarParser::Variable_declarationContext * /*ctx*/) override { }
   virtual void exitVariable_declaration(GrammarParser::Variable_declarationContext * /*ctx*/) override { }

@@ -26,10 +26,104 @@ void Instruction::PrintToFile(std::ofstream& file,
 std::any ASTGenerator::visitProg(GrammarParser::ProgContext* ctx) {
   std::vector<Instruction*> children;
 
+  for (auto* pre_main : ctx->pre_main()) {
+    children.push_back(std::any_cast<Instruction*>(visit(pre_main)));
+  }
+
   for (auto* stat : ctx->statement()) {
     children.push_back(std::any_cast<Instruction*>(visit(stat)));
   }
   return new Instruction("Prog", children);
+}
+
+std::any ASTGenerator::visitArray_type(GrammarParser::Array_typeContext* ctx) {
+  return new Instruction(
+      "ArrayType", {std::any_cast<Instruction*>(visit(ctx->base_type()))});
+}
+
+std::any ASTGenerator::visitClass(GrammarParser::ClassContext* ctx) {
+  std::string name = ctx->VARIABLE_NAME()->toString();
+  std::vector<Instruction*> children;
+  for (auto* child : ctx->class_statement()) {
+    children.push_back(std::any_cast<Instruction*>(visit(child)));
+  }
+  return new Instruction("class " + name, children);
+}
+
+std::any ASTGenerator::visitClass_field(
+    GrammarParser::Class_fieldContext* ctx) {
+  return new Instruction(
+      "class field",
+      {std::any_cast<Instruction*>(visit(ctx->type())),
+       new Instruction(
+           "VariableName",
+           {new Instruction(ctx->VARIABLE_NAME()->toString(), {})})});
+}
+
+std::any ASTGenerator::visitClass_statement(
+    GrammarParser::Class_statementContext* ctx) {
+  if (ctx->method()) {
+    return new Instruction("Class_statement",
+                           {std::any_cast<Instruction*>(visit(ctx->method()))});
+  }
+  return new Instruction(
+      "Class statement",
+      {std::any_cast<Instruction*>(visit(ctx->class_field()))});
+}
+
+std::any ASTGenerator::visitMethod(GrammarParser::MethodContext* ctx) {
+  std::vector<Instruction*> children;
+  children.push_back(std::any_cast<Instruction*>(visit(ctx->type())));
+  if (ctx->parameter_list()) {
+    children.push_back(std::any_cast<Instruction*>(visit(ctx->parameter_list())));
+  }
+  for (auto* stat : ctx->statement()) {
+    children.push_back(std::any_cast<Instruction*>(visit(stat)));
+  }
+  return new Instruction("Method", children);
+}
+
+std::any ASTGenerator::visitParameter(GrammarParser::ParameterContext* ctx) {
+  return new Instruction(
+      "Parameter",
+      {std::any_cast<Instruction*>(visit(ctx->type())),
+       new Instruction(
+           "VariableName",
+           {new Instruction(ctx->VARIABLE_NAME()->toString(), {})})});
+}
+
+std::any ASTGenerator::visitParameter_list(GrammarParser::Parameter_listContext* ctx) {
+  std::vector<Instruction*> children;
+  for (auto* child : ctx->parameter()) {
+    children.push_back(std::any_cast<Instruction*>(visit(child)));
+  }
+  return new Instruction("Parameter_list", children);
+}
+
+std::any ASTGenerator::visitType(GrammarParser::TypeContext* ctx) {
+  if (ctx->base_type()) {
+    return new Instruction("Type", {std::any_cast<Instruction*>(visit(ctx->base_type()))});
+  }
+  return new Instruction("Type", {std::any_cast<Instruction*>(visit(ctx->array_type()))});
+}
+
+std::any ASTGenerator::visitPre_main(GrammarParser::Pre_mainContext* ctx) {
+  if (ctx->function_declaration()) {
+    return new Instruction("Pre_main", {std::any_cast<Instruction*>(visit(ctx->function_declaration()))});
+  }
+  return new Instruction("Pre_main", {std::any_cast<Instruction*>(visit(ctx->class_()))});
+}
+
+std::any ASTGenerator::visitFunction_declaration(GrammarParser::Function_declarationContext* ctx) {
+  std::vector<Instruction*> children;
+  children.push_back(std::any_cast<Instruction*>(visit(ctx->type())));
+  if (ctx->parameter_list()) {
+    children.push_back(std::any_cast<Instruction*>(visit(ctx->parameter_list())));
+  }
+  for (auto* child : ctx->statement()) {
+    children.push_back(std::any_cast<Instruction*>(visit(child)));
+  }
+  return new Instruction("Function_declaration", children);
 }
 
 std::any ASTGenerator::visitBase_type(GrammarParser::Base_typeContext* ctx) {
@@ -44,7 +138,7 @@ std::any ASTGenerator::visitBase_type(GrammarParser::Base_typeContext* ctx) {
 
 std::any ASTGenerator::visitVariable_declaration(
     GrammarParser::Variable_declarationContext* ctx) {
-  auto* type = std::any_cast<Instruction*>(visit(ctx->base_type()));
+  auto* type = std::any_cast<Instruction*>(visit(ctx->type()));
   std::string name = ctx->VARIABLE_NAME()->toString();
   return new Instruction(
       "Variable_declaration",
@@ -62,7 +156,7 @@ std::any ASTGenerator::visitVariable_definition(
 
 std::any ASTGenerator::visitVariable_declaration_definition(
     GrammarParser::Variable_declaration_definitionContext* ctx) {
-  auto* type = std::any_cast<Instruction*>(visit(ctx->base_type()));
+  auto* type = std::any_cast<Instruction*>(visit(ctx->type()));
   std::string name = ctx->VARIABLE_NAME()->toString();
   auto* value = std::any_cast<Instruction*>(visit(ctx->expression()));
   return new Instruction(
@@ -177,6 +271,4 @@ void ASTTree::PrintToFile(const std::string& path_to_file) {
   prog_root_instr->PrintToFile(file, 0);
 }
 
-Instruction* ASTTree::GetRoot() const {
-  return prog_root_instr;
-}
+Instruction* ASTTree::GetRoot() const { return prog_root_instr; }
