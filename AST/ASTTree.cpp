@@ -176,3 +176,7 @@ void ASTTree::PrintToFile(const std::string& path_to_file) {
   file.open(path_to_file);
   prog_root_instr->PrintToFile(file, 0);
 }
+
+Instruction* ASTTree::GetRoot() const {
+  return prog_root_instr;
+}

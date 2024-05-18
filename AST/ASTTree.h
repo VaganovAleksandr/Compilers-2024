@@ -49,7 +49,7 @@ class ASTGenerator : public GrammarBaseVisitor {
       GrammarParser::Else_statementContext *ctx) override;
   std::any visitExpression(GrammarParser::ExpressionContext *ctx) override;
 
-  virtual ~ASTGenerator() override = default;
+  ~ASTGenerator() override = default;
 };
 
 class ASTTree {
@@ -59,6 +59,7 @@ class ASTTree {
   void Build(GrammarParser::ProgContext* prog);
   void Print();
   void PrintToFile(const std::string& path_to_file);
+  Instruction* GetRoot() const;
 
  private:
   Instruction* prog_root_instr = nullptr;
