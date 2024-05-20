@@ -8,7 +8,7 @@ void Driver::AddVariable(const std::string& type, const std::string& name,
                          const std::any& value) {
   if (variables_int.contains(name) || variables_bool.contains(name) ||
       variables_string.contains(name)) {
-    std::cerr << "Symbol " << name << " is already defined";
+    std::cerr << "SymbolBase " << name << " is already defined";
     abort();
   }
   if (type == "int") {
@@ -37,7 +37,7 @@ void Driver::ChangeVariable(const std::string& name, const std::any& new_value) 
   if (variables_string.contains(name)) {
     variables_string[name] = std::any_cast<std::string>(new_value);
   }
-  std::cerr << "Symbol " << name << " does not exist!";
+  std::cerr << "SymbolBase " << name << " does not exist!";
   abort();
 }
 
@@ -51,7 +51,7 @@ std::any Driver::GetVariable(const std::string& name) const {
   if (variables_string.contains(name)) {
     return driver->variables_string[name];
   }
-  std::cerr << "Symbol " << name << " does not exist!";
+  std::cerr << "SymbolBase " << name << " does not exist!";
   abort();
 }
 

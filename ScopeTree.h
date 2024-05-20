@@ -24,5 +24,5 @@ class ScopeTree {
   void AddLayer();
   void DeleteLayer();
   ScopeLayer* GetCurrentLayer();
-  Symbol* GetSymbol(const std::string& name);
+  SymbolBase* GetSymbol(const std::string& name);
 };

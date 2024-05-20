@@ -1,24 +1,49 @@
 #include "Symbol.h"
 
-Symbol::Symbol(std::string type, std::string base_type, std::string name,
-               llvm::Value* allocated_memory)
-    : type(std::move(type)),
-      base_type(std::move(base_type)),
-      name(std::move(name)),
-      allocated_memory(allocated_memory) {}
+#include <utility>
 
-Symbol::Symbol(std::string type, std::string base_type, std::string name,
-               std::any value, llvm::Value* allocated_memory)
-    : type(std::move(type)),
-      base_type(std::move(base_type)),
-      name(std::move(name)),
-      value(std::move(value)),
-      allocated_memory(allocated_memory) {}
+SymbolBase::SymbolBase(std::string name, llvm::Value* allocated_memory)
+    : name(std::move(name)), allocated_memory(allocated_memory) {}
 
-bool Symbol::operator==(const Symbol& other) const {
+bool SymbolBase::operator==(const SymbolBase& other) const {
   return name == other.name;
 }
 
-bool Symbol::operator!=(const Symbol& other) const {
+bool SymbolBase::operator!=(const SymbolBase& other) const {
   return name != other.name;
+}
+
+SymbolVariable::SymbolVariable(std::string base_type, const std::string& name_,
+                               std::any value, llvm::Value* allocated_memory_)
+    : base_type(std::move(base_type)), value(std::move(value)) {
+  name = name_;
+  allocated_memory = allocated_memory_;
+}
+
+SymbolVariable::SymbolVariable(std::string base_type, const std::string& name_,
+                               llvm::Value* allocated_memory_)
+    : base_type(std::move(base_type)) {
+  name = name_;
+  allocated_memory = allocated_memory_;
+}
+
+SymbolFunction::SymbolFunction(std::string return_type,
+                               std::vector<SymbolVariable*> args,
+                               llvm::Function* function,
+                               const std::string& name_,
+                               llvm::Value* allocated_memory_)
+    : return_type(std::move(return_type)),
+      arguments(std::move(args)),
+      function(function) {
+  name = name_;
+  allocated_memory = allocated_memory_;
+}
+
+SymbolClass::SymbolClass(std::vector<SymbolVariable*> fields,
+                         std::vector<SymbolFunction*> methods,
+                         const std::string& name_,
+                         llvm::Value* allocated_memory_)
+    : fields(std::move(fields)), methods(std::move(methods)) {
+  name = name_;
+  allocated_memory = allocated_memory_;
 }

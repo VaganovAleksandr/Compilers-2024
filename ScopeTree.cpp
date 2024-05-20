@@ -23,7 +23,7 @@ ScopeLayer* ScopeTree::GetCurrentLayer() {
   return current_layer;
 }
 
-Symbol* ScopeTree::GetSymbol(const std::string& name) {
+SymbolBase* ScopeTree::GetSymbol(const std::string& name) {
   ScopeLayer* cur_layer = current_layer;
   while (cur_layer != nullptr) {
     if (!cur_layer->symbol_table->FindSymbol(name)) {

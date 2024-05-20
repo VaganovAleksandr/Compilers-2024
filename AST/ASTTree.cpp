@@ -191,6 +191,15 @@ std::any ASTGenerator::visitFunction(GrammarParser::FunctionContext* ctx) {
   Instruction* instr = nullptr;
   if (ctx->print()) {
     instr = std::any_cast<Instruction*>(visit(ctx->print()));
+  } else {
+    std::vector<Instruction*> children;
+    std::vector<Instruction*> children_params;
+    children.push_back(new Instruction("Name", {new Instruction(ctx->VARIABLE_NAME()->toString(), {})}));
+    for (auto* expr : ctx->expression()) {
+      children_params.push_back(std::any_cast<Instruction*>(visitExpression(expr)));
+    }
+    children.push_back(new Instruction("Params", children_params));
+    return new Instruction("Function", children);
   }
   return new Instruction("Function", {instr});
 }

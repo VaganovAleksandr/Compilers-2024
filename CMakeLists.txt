@@ -7,7 +7,7 @@ SET(CMAKE_CXX_STANDARD 20)
 add_subdirectory(runtime)
 include_directories(runtime/src)
 
-include_directories(AST ANTLR-generated IR ${PROJECT_SOURCE_DIR})
+include_directories(AST ANTLR-generated IR ${PROJECT_SOURCE_DIR} TypeChecker)
 
 find_package(LLVM REQUIRED CONFIG)
 
@@ -74,13 +74,27 @@ add_executable(
         SymbolTable.cpp
 )
 
+add_executable(
+        TypeChecker
+        ANTLR-generated/GrammarParser.cpp
+        ANTLR-generated/GrammarLexer.cpp
+        AST/ASTTree.cpp
+        ScopeTree.cpp
+        Symbol.cpp
+        SymbolTable.cpp
+        TypeChecker/TypeChecker.cpp
+        TypeChecker/ScopeTreeBuilder.cpp
+)
+
 enable_testing()
 
 gtest_discover_tests(Tests)
 
 find_package(Threads REQUIRED)
 
-# target_link_libraries(AST_to_llvm ${llvm_libs})
+target_link_libraries(AST_to_llvm ${llvm_libs})
+
+target_link_libraries(TypeChecker ${llvm_libs})
 
 target_link_directories(Program PRIVATE dist)
 target_link_libraries(Program antlr4-runtime)
@@ -97,6 +111,10 @@ target_link_libraries(Tests Threads::Threads)
 target_link_directories(AST_to_llvm PRIVATE dist)
 target_link_libraries(AST_to_llvm antlr4-runtime)
 target_link_libraries(AST_to_llvm Threads::Threads)
+
+target_link_directories(TypeChecker PRIVATE dist)
+target_link_libraries(TypeChecker antlr4-runtime)
+target_link_libraries(TypeChecker Threads::Threads)
 
 target_link_libraries(AST_to_llvm ${llvm_libs})
 

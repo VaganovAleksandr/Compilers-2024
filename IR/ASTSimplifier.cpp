@@ -7,18 +7,27 @@ llvm::Value* ASTSimplifier::visitExpression(Instruction* instr) {
   }
   if (instr->name == "VariableNameExpression") {
     llvm::Value* value;
-    std::string base_type =
-        scope_tree->GetSymbol(instr->children[0]->name)->base_type;
-    if (base_type == "int" || base_type == "bool") {
-      value = llvm::ConstantInt::get(
+    std::string base_type = dynamic_cast<SymbolVariable*>(
+                                scope_tree->GetSymbol(instr->children[0]->name))
+                                ->base_type;
+    if (base_type == "int") {
+      value = Builder.CreateLoad(
           Builder.getInt32Ty(),
-          std::stoi(std::any_cast<std::string>(
-              scope_tree->GetSymbol(instr->children[0]->name)->value)));
+              dynamic_cast<SymbolVariable*>(
+                  scope_tree->GetSymbol(instr->children[0]->name))
+                  ->allocated_memory);
+    } else if (base_type == "bool") {
+      value = Builder.CreateLoad(
+          Builder.getInt8Ty(),
+          dynamic_cast<SymbolVariable*>(
+              scope_tree->GetSymbol(instr->children[0]->name))
+              ->allocated_memory);
     } else if (base_type == "string") {
       value = llvm::ConstantDataArray::getString(
-          context,
-          std::any_cast<std::string>(
-              scope_tree->GetSymbol(instr->children[0]->name)->value));
+          context, std::any_cast<std::string>(
+                       dynamic_cast<SymbolVariable*>(
+                           scope_tree->GetSymbol(instr->children[0]->name))
+                           ->value));
     } else {
       exit(EXIT_FAILURE);
     }
@@ -61,9 +70,12 @@ llvm::Value* ASTSimplifier::visitExpression(Instruction* instr) {
 }
 
 llvm::Value* ASTSimplifier::visitVariable_declaration(Instruction* instr) {
-  if (scope_tree->GetCurrentLayer()->symbol_table->FindSymbol(instr->children[1]->children[0]->name)) {
+  if (scope_tree->GetCurrentLayer()->symbol_table->FindSymbol(
+          instr->children[1]->children[0]->name)) {
     auto error = llvm::make_error<llvm::StringError>(
-        instr->children[1]->children[0]->name + " is already declared in this scope!", llvm::inconvertibleErrorCode());
+        instr->children[1]->children[0]->name +
+            " is already declared in this scope!",
+        llvm::inconvertibleErrorCode());
     llvm::logAllUnhandledErrors(std::move(error), llvm::errs(), "Error: ");
   }
   std::string type = instr->children[0]->children[0]->children[0]->name;
@@ -71,14 +83,15 @@ llvm::Value* ASTSimplifier::visitVariable_declaration(Instruction* instr) {
     llvm::Value* alloca =
         Builder.CreateAlloca(Builder.getInt32Ty(), nullptr, "allocaInt");
     scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
-        new Symbol("variable", "int", instr->children[1]->children[0]->name, alloca));
+        new SymbolVariable("int", instr->children[1]->children[0]->name,
+                           alloca));
     return alloca;
   }
   if (type == "bool") {
     llvm::Value* alloca =
         Builder.CreateAlloca(Builder.getInt8Ty(), nullptr, "allocaBool");
     scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
-        new Symbol("variable", "bool", instr->children[1]->name, alloca));
+        new SymbolVariable("bool", instr->children[1]->name, alloca));
     return alloca;
   }
   if (type == "string") {
@@ -90,8 +103,8 @@ llvm::Value* ASTSimplifier::visitVariable_declaration(Instruction* instr) {
 }
 
 llvm::Value* ASTSimplifier::visitVariable_definition(Instruction* instr) {
-  Symbol* symbol =
-      scope_tree->GetSymbol(instr->children[0]->children[0]->name);
+  auto* symbol = dynamic_cast<SymbolVariable*>(
+      scope_tree->GetSymbol(instr->children[0]->children[0]->name));
   symbol->value = instr->children[1]->children[0]->name;
   scope_tree->GetCurrentLayer()->symbol_table->ChangeSymbol(symbol);
   if (instr->children[1]->name == "IntegerExpression") {
@@ -114,9 +127,12 @@ llvm::Value* ASTSimplifier::visitVariable_definition(Instruction* instr) {
 
 llvm::Value* ASTSimplifier::visitVariable_declaration_definition(
     Instruction* instr) {
-  if (scope_tree->GetCurrentLayer()->symbol_table->FindSymbol(instr->children[1]->children[0]->name)) {
+  if (scope_tree->GetCurrentLayer()->symbol_table->FindSymbol(
+          instr->children[1]->children[0]->name)) {
     auto error = llvm::make_error<llvm::StringError>(
-        instr->children[1]->children[0]->name + " is already declared in this scope!", llvm::inconvertibleErrorCode());
+        instr->children[1]->children[0]->name +
+            " is already declared in this scope!",
+        llvm::inconvertibleErrorCode());
     llvm::logAllUnhandledErrors(std::move(error), llvm::errs(), "Error: ");
   }
   bool is_array = instr->children[0]->children[0]->name == "ArrayType";
@@ -131,26 +147,30 @@ llvm::Value* ASTSimplifier::visitVariable_declaration_definition(
       llvm::Value* alloca =
           Builder.CreateAlloca(llvm::Type::getInt32Ty(context));
       scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
-          new Symbol("variable", "int", instr->children[1]->children[0]->name,
-                     instr->children[2]->children[0]->name, alloca));
+          new SymbolVariable("int", instr->children[1]->children[0]->name,
+                             instr->children[2]->children[0]->name, alloca));
       return Builder.CreateStore(
           Builder.getInt32(std::stoi(std::any_cast<std::string>(
-              scope_tree->GetSymbol(instr->children[1]->children[0]->name)
+              dynamic_cast<SymbolVariable*>(
+                  scope_tree->GetSymbol(instr->children[1]->children[0]->name))
                   ->value))),
           alloca);
     }
     if (instr->children[2]->name == "VariableNameExpression") {
       llvm::Value* alloca =
           Builder.CreateAlloca(llvm::Type::getInt32Ty(context));
-      scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(new Symbol(
-          "variable", "int", instr->children[1]->children[0]->name,
-          std::any_cast<std::string>(
-              scope_tree->GetSymbol(instr->children[2]->children[0]->name)
-                  ->value),
-          alloca));
+      scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
+          new SymbolVariable("int", instr->children[1]->children[0]->name,
+                             std::any_cast<std::string>(
+                                 dynamic_cast<SymbolVariable*>(
+                                     scope_tree->GetSymbol(
+                                         instr->children[2]->children[0]->name))
+                                     ->value),
+                             alloca));
       return Builder.CreateStore(
           Builder.getInt32(std::stoi(std::any_cast<std::string>(
-              scope_tree->GetSymbol(instr->children[1]->children[0]->name)
+              dynamic_cast<SymbolVariable*>(
+                  scope_tree->GetSymbol(instr->children[1]->children[0]->name))
                   ->value))),
           alloca);
     }
@@ -159,7 +179,7 @@ llvm::Value* ASTSimplifier::visitVariable_declaration_definition(
   if (type == "bool") {
     llvm::Value* alloca = Builder.CreateAlloca(Builder.getInt8Ty());
     scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
-        new Symbol("variable", "bool", instr->children[1]->name, alloca));
+        new SymbolVariable("bool", instr->children[1]->name, alloca));
     return Builder.CreateStore(
         Builder.getInt8(std::stoi(instr->children[2]->children[0]->name)),
         alloca);
@@ -207,7 +227,8 @@ llvm::Value* ASTSimplifier::visitPrint(Instruction* instr) {
     llvm::ArrayType* arrayType = llvm::ArrayType::get(
         charType,
         std::any_cast<std::string>(
-            scope_tree->GetSymbol(instr->children[0]->children[0]->name)
+            dynamic_cast<SymbolVariable*>(
+                scope_tree->GetSymbol(instr->children[0]->children[0]->name))
                 ->value)
                 .size() +
             1);
@@ -224,8 +245,32 @@ llvm::Value* ASTSimplifier::visitPrint(Instruction* instr) {
 llvm::Value* ASTSimplifier::visitFunction(Instruction* instr) {
   if (instr->children[0]->name == "Print") {
     return visitPrint(instr->children[0]);
+  } else {
+    scope_tree->AddLayer();
+    std::vector<llvm::Value*> arguments;
+    for (auto* instr_ : instr->children) {
+      if (instr_->name == "Name") {
+        continue;
+      }
+      auto* value = visitExpression(instr_->children[0]);
+      llvm::Value* alloca = Builder.CreateAlloca(value->getType());
+      Builder.CreateStore(value, alloca);
+      arguments.push_back(value);
+      scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
+          new SymbolVariable(
+              dynamic_cast<SymbolVariable*>(
+                  scope_tree->GetSymbol(instr_->children[0]->children[0]->name))
+                  ->base_type,
+              instr_->children[0]->children[0]->name, value, alloca));
+    }
+    auto* sym_func = dynamic_cast<SymbolFunction*>(
+        scope_tree->GetSymbol(instr->children[0]->children[0]->name));
+    auto* result = Builder.CreateCall(
+            sym_func->function,
+        arguments);
+    scope_tree->DeleteLayer();
+    return result;
   }
-  exit(EXIT_FAILURE);
 }
 
 llvm::Value* ASTSimplifier::visitStatement(Instruction* instr) {
@@ -348,8 +393,11 @@ llvm::Value* ASTSimplifier::visitClass(Instruction* instr) {
   class_->setBody(fields);
   llvm::Value* class_instance =
       Builder.CreateAlloca(class_, nullptr, "instance");
-  scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(new Symbol(
-      "class", "class", instr->children[0]->children[0]->name, class_instance));
+  std::vector<SymbolVariable*> fields_values;
+  for (auto* type : fields) {
+  }
+  scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(new SymbolClass(
+      {}, {}, instr->children[0]->children[0]->name, class_instance));
   size_t number_of_fields = 0;
   for (auto* instr_ : instr->children) {
     if (instr_->name == "Class name") continue;
@@ -383,9 +431,30 @@ llvm::Value* ASTSimplifier::visitClass(Instruction* instr) {
         method->setName(instr_->children[0]->children[0]->children[0]->name);
         auto args = method->arg_begin();
         args->setName(instr->children[0]->children[0]->name);
+        ++args;
+        std::vector<SymbolVariable*> arguments;
+        size_t index = 0;
+        while (args != method->arg_end()) {
+          std::string type_arg = instr_->children[2]
+                                     ->children[index]
+                                     ->children[0]
+                                     ->children[0]
+                                     ->children[0]
+                                     ->name;
+          arguments.push_back(new SymbolVariable(type_arg,
+                                                 instr_->children[2]
+                                                     ->children[index]
+                                                     ->children[1]
+                                                     ->children[0]
+                                                     ->name,
+                                                 nullptr));
+          ++args;
+          ++index;
+        }
         scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
-            new Symbol("method", type, instr->children[0]->children[0]->name,
-                       class_instance));
+            new SymbolFunction(type, arguments, method,
+                               instr->children[0]->children[0]->name,
+                               class_instance));
         continue;
       }
     }
@@ -460,6 +529,21 @@ llvm::Function* ASTSimplifier::visitMethod(Instruction* instr,
   auto args = method->arg_begin();
   llvm::Argument* current_arg = ++args;
   std::vector<llvm::Value*> class_fields;
+  for (auto* instr_ : instr->children[0]->children[2]->children) {
+    std::string type = instr_->children[0]->children[0]->children[0]->name;
+    llvm::Type* type_;
+    if (type == "int") {
+      type_ = Builder.getInt32Ty();
+    } else if (type == "bool") {
+      type_ = Builder.getInt8Ty();
+    } else if (type == "string") {
+      //TODO
+    }
+    llvm::Value* alloca = Builder.CreateAlloca(type_, nullptr, "allocaArg");
+    scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
+        new SymbolVariable(type,
+                           instr_->children[1]->children[0]->name, alloca));
+  }
   while (current_arg != method->arg_end()) {
     llvm::Value* field_ptr =
         Builder.CreateStructGEP(class_type, current_arg, 0, "field_ptr");
@@ -467,7 +551,8 @@ llvm::Function* ASTSimplifier::visitMethod(Instruction* instr,
         Builder.CreateLoad(current_arg->getType(), field_ptr, "field"));
   }
   for (auto* stat : instr->children[0]->children) {
-    if (stat->name == "Name" || stat->name == "Type") {
+    if (stat->name == "Name" || stat->name == "Type" ||
+        stat->name == "Parameter_list") {
       continue;
     }
     visitStatement(stat);
@@ -489,8 +574,8 @@ llvm::Function* ASTSimplifier::visitMethod(Instruction* instr,
 }
 
 llvm::Value* ASTSimplifier::visitFunction_declaration(Instruction* instr) {
-  scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(new Symbol("function", "function", instr->children[1]->children[0]->name, nullptr));
   std::vector<llvm::Type*> arg_types;
+  std::vector<SymbolVariable*> arguments;
   for (auto* param : instr->children[2]->children) {
     bool is_array = param->children[0]->children[0]->name == "ArrayType";
     std::string type;
@@ -499,6 +584,8 @@ llvm::Value* ASTSimplifier::visitFunction_declaration(Instruction* instr) {
     } else {
       type = param->children[0]->children[0]->children[0]->name;
     }
+    arguments.push_back(new SymbolVariable(
+        type, param->children[1]->children[0]->name, nullptr));
     if (type == "int") {
       arg_types.push_back(llvm::Type::getInt32Ty(context));
     } else if (type == "bool") {
@@ -532,7 +619,6 @@ llvm::Value* ASTSimplifier::visitFunction_declaration(Instruction* instr) {
   auto* function_block = llvm::BasicBlock::Create(
       context, instr->children[1]->children[0]->name + "_function", function);
   Builder.SetInsertPoint(function_block);
-  scope_tree->AddLayer();
   auto args = function->arg_begin();
   size_t number_of_cur_param = 0;
   while (args != function->arg_end()) {
@@ -544,13 +630,17 @@ llvm::Value* ASTSimplifier::visitFunction_declaration(Instruction* instr) {
                      ->name);
     auto* alloca = Builder.CreateAlloca(arg_types[number_of_cur_param]);
     auto* storage = Builder.CreateStore(arg, alloca);
-    auto* copy = Builder.CreateLoad(arg_types[number_of_cur_param], alloca,
-                                    instr->children[2]
-                                            ->children[number_of_cur_param]
-                                            ->children[1]
-                                            ->children[0]
-                                            ->name +
-                                        ".load");
+    arguments[number_of_cur_param]->allocated_memory = alloca;
+    ++number_of_cur_param;
+  }
+  scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
+      new SymbolFunction(return_type, arguments, function,
+                         instr->children[1]->children[0]->name, nullptr));
+  scope_tree->AddLayer();
+  args = function->arg_begin();
+  number_of_cur_param = 0;
+  while (args != function->arg_end()) {
+    llvm::Value* arg = args++;
     if (instr->children[2]
             ->children[number_of_cur_param]
             ->children[0]
@@ -561,10 +651,14 @@ llvm::Value* ASTSimplifier::visitFunction_declaration(Instruction* instr) {
                                  ->children[1]
                                  ->children[0]
                                  ->name;
-      scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(new Symbol(
-          "variable", var_name,
-          instr->children[2]->children[number_of_cur_param]->children[1]->name,
-          alloca));
+      scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
+          new SymbolVariable(instr->children[2]
+                                 ->children[number_of_cur_param]
+                                 ->children[0]
+                                 ->children[0]
+                                 ->children[0]
+                                 ->name,
+                             var_name, arguments[number_of_cur_param]->allocated_memory));
       ++number_of_cur_param;
     } else {
       size_t number_of_elements = std::stoi(instr->children[2]
@@ -578,6 +672,8 @@ llvm::Value* ASTSimplifier::visitFunction_declaration(Instruction* instr) {
       // TODO
     }
   }
+
+
 
   for (auto* instr_ : instr->children) {
     if (instr_->name == "Type" || instr_->name == "Name" ||

@@ -1,0 +1,6 @@
+class TypeChecker {
+ private:
+
+ public:
+
+};

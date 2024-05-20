@@ -47,7 +47,7 @@ variable_declaration_definition: type VARIABLE_NAME '=' expression';';
 
 print: 'print' '(' expression ')';
 
-function: print;
+function: print | name=VARIABLE_NAME '(' expression* ')';
 
 if_statement: NEWLINE* statement NEWLINE*;
 

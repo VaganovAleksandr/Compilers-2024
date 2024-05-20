@@ -346,9 +346,13 @@ public:
 
   class  FunctionContext : public antlr4::ParserRuleContext {
   public:
+    antlr4::Token *name = nullptr;
     FunctionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     PrintContext *print();
+    antlr4::tree::TerminalNode *VARIABLE_NAME();
+    std::vector<ExpressionContext *> expression();
+    ExpressionContext* expression(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
