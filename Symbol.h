@@ -7,7 +7,6 @@ struct Symbol {
   std::string type;
   std::string base_type;
   std::string name;
-  std::string name_in_llvm;
   std::any value = 0;
   llvm::Value* allocated_memory;
 

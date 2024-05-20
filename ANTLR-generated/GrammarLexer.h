@@ -15,8 +15,8 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
-    NEWLINE = 21, SPACE = 22, VARIABLE_NAME = 23, INTEGER = 24, SCHAR = 25, 
-    STRING = 26, UNARY_OPERATOR = 27, BINARY_OPERATOR = 28
+    T__20 = 21, NEWLINE = 22, SPACE = 23, VARIABLE_NAME = 24, INTEGER = 25, 
+    SCHAR = 26, STRING = 27, UNARY_OPERATOR = 28, BINARY_OPERATOR = 29
   };
 
   explicit GrammarLexer(antlr4::CharStream *input);

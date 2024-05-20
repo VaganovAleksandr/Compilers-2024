@@ -17,5 +17,5 @@ class SymbolTable {
   std::unordered_map<std::string, std::stack<Symbol*>> symbols = {};
   std::stack<Symbol> symbol_stream = {};
 
-  Symbol scope_beginner_ = Symbol("", "", "{", nullptr);
+  Symbol scope_beginner_ = Symbol("", "", "{", nullptr, nullptr);
 };

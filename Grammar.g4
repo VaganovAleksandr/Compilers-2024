@@ -17,7 +17,7 @@ base_type: int='int'
 
 function_declaration: 'func' type VARIABLE_NAME '(' parameter_list? ')' '{' NEWLINE* (statement NEWLINE*)* '}' NEWLINE*;
 
-array_type: base_type '*';
+array_type: base_type '[' expression ']';
 
 parameter: type VARIABLE_NAME;
 
