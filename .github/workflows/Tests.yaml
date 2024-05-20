@@ -1,0 +1,36 @@
+name: Testing
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "*" ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Preparing
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y cmake g++-14 libgtest-dev python3 python3-pip
+          pip3 install antlr4-tools
+      - name: Build
+        run: export CXXFLAGS="-std=c++20" && mkdir build && cd build && cmake .. && make
+      - name: Uploading Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: build/Tests
+          retention-days: 1
+  Tests:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+      - shell: bash
+        run: |
+          cd /home/runner/work/Compilers-2024/Compilers-2024/artifact
+          chmod +x Tests
+          ./Tests
