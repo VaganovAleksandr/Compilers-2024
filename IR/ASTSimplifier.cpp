@@ -61,12 +61,17 @@ llvm::Value* ASTSimplifier::visitExpression(Instruction* instr) {
 }
 
 llvm::Value* ASTSimplifier::visitVariable_declaration(Instruction* instr) {
+  if (scope_tree->GetCurrentLayer()->symbol_table->FindSymbol(instr->children[1]->children[0]->name)) {
+    auto error = llvm::make_error<llvm::StringError>(
+        instr->children[1]->children[0]->name + " is already declared in this scope!", llvm::inconvertibleErrorCode());
+    llvm::logAllUnhandledErrors(std::move(error), llvm::errs(), "Error: ");
+  }
   std::string type = instr->children[0]->children[0]->children[0]->name;
   if (type == "int") {
     llvm::Value* alloca =
         Builder.CreateAlloca(Builder.getInt32Ty(), nullptr, "allocaInt");
     scope_tree->GetCurrentLayer()->symbol_table->CreateSymbol(
-        new Symbol("variable", "int", instr->children[1]->name, alloca));
+        new Symbol("variable", "int", instr->children[1]->children[0]->name, alloca));
     return alloca;
   }
   if (type == "bool") {
@@ -109,6 +114,11 @@ llvm::Value* ASTSimplifier::visitVariable_definition(Instruction* instr) {
 
 llvm::Value* ASTSimplifier::visitVariable_declaration_definition(
     Instruction* instr) {
+  if (scope_tree->GetCurrentLayer()->symbol_table->FindSymbol(instr->children[1]->children[0]->name)) {
+    auto error = llvm::make_error<llvm::StringError>(
+        instr->children[1]->children[0]->name + " is already declared in this scope!", llvm::inconvertibleErrorCode());
+    llvm::logAllUnhandledErrors(std::move(error), llvm::errs(), "Error: ");
+  }
   bool is_array = instr->children[0]->children[0]->name == "ArrayType";
   std::string type;
   if (is_array) {
