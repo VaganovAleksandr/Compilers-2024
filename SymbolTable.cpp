@@ -17,6 +17,10 @@ void SymbolTable::CreateSymbol(Symbol* symbol) {
   symbol_stream.push(*symbol);
 }
 
+bool SymbolTable::FindSymbol(const std::string& name) {
+  return symbols.find(name) != symbols.end();
+}
+
 Symbol* SymbolTable::GetSymbol(const std::string& name) {
   if (symbols.find(name) == symbols.end()) {
     throw std::runtime_error(name +  ": variable not declared");

@@ -1,4 +1,4 @@
-#include "../SymbolTable.h"
+#include "ScopeTree.h"
 #include "ASTTree.h"
 
 class ASTSimplifier {
@@ -32,7 +32,7 @@ class ASTSimplifier {
   llvm::IRBuilder<> Builder = llvm::IRBuilder<>(context);
   llvm::FunctionType* funcType =
       llvm::FunctionType::get(llvm::Type::getInt32Ty(context), false);
-  SymbolTable* symbol_table = new SymbolTable();
+  ScopeTree* scope_tree = new ScopeTree(new ScopeLayer(nullptr));
 
  public:
   ASTSimplifier(Instruction* instr, const std::string& path);

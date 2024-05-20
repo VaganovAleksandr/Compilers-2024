@@ -8,6 +8,7 @@ class SymbolTable {
   SymbolTable() = default;
   void ChangeSymbol(Symbol* symbol);
   void CreateSymbol(Symbol* symbol);
+  bool FindSymbol(const std::string& name);
   Symbol* GetSymbol(const std::string& name);
 
   void BeginScope();
